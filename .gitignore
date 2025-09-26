@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+.venv/
+.venv*/
+env/
+env*/
+.conv/*
+.conv/   # In your case, this is your venv
+*.egg-info/
+
+# Django
+*.log
+*.sqlite3
+/static/
+media/
+
+# VSCode / IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
