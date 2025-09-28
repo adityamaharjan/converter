@@ -15,7 +15,7 @@ env*/
 # Django
 *.log
 *.sqlite3
-/static/
+
 media/
 
 # VSCode / IDEs
