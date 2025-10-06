@@ -17,7 +17,7 @@ env*/
 *.sqlite3
 
 media/
-
+static_prod/
 # VSCode / IDEs
 .vscode/
 .idea/
@@ -26,3 +26,4 @@ media/
 .DS_Store
 Thumbs.db
 .env
+gunicorn.sock
