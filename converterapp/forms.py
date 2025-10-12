@@ -3,10 +3,11 @@ from django import forms
 # Only document formats for the target conversion
 DOC_CHOICES = [
     ('pdf', 'PDF Document'),
-    ('docx', 'Microsoft Word (DOCX)'),
-    ('odt', 'OpenDocument Text (ODT)'),
-    ('txt', 'Plain Text (TXT)'),
-    ('html', 'Web Page (HTML)'),
+    ('png', 'PNG Image'),
+    # ('docx', 'Microsoft Word (DOCX)'),
+    # ('odt', 'OpenDocument Text (ODT)'),
+
+ 
     # Add other document formats here
 ]
 

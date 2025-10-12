@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block results %}
+    <h3>Your Converted File: <i>{{ filename }}</i>  is ready</h3>
+
+    <div class="pdf-container">
+
+        <a href="{{ file_url }}" class="download-btn" target="_blank">View PDF</a>
+        <a href="{{ file_url }}" class="download-btn" download>⬇ Download PDF</a>
+    </div>
+
+  
+{% endblock %}

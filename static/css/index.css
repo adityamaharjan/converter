@@ -138,3 +138,10 @@ button[type="submit"]:active {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
+.tagline {
+    font-style: italic;
+    color: var(--secondary-color);
+    margin-bottom: 40px;
+    text-align: center;
+}

@@ -17,10 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from converterapp import views
+from django.views.generic import RedirectView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('about/', views.about, name='about'),
-    path('', views.index, name='index'),
+    path('', views.placeholder, name='placeholder'),
+    path('index/', views.index, name='index'),
     path('convert/', views.convert, name='convert'),
-]
+    path('result/<str:filename>', views.result, name='result'),
+    # path('download/<str:filename>', views.download, name='download'),
+    path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'favicon.ico')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

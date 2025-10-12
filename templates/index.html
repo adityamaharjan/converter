@@ -6,13 +6,16 @@
 
 {% block stylesheets %}
       <link rel="stylesheet" href="{% static 'css/index.css' %}">
+      <link rel="stylesheet" href="{% static 'css/results.css' %}">
 {% endblock %}
 
 
 {% block content %}
 <div class="converter-container">
-    <h2>Simple File Converter</h2>
-    <p class="tagline">Upload your file and select your desired output format below.</p>
+    <h2>File Converter</h2>
+    <p class="tagline">Upload your file and select your desired output format below.
+        <i>Docx and docs format may not be converted as it is seen because of compatibility with the conversion software. For more info see about page</i>
+    </p>
 
     <form action="{% url 'convert' %}" method="post" enctype="multipart/form-data" class="conversion-form">
         {% csrf_token %}
@@ -42,7 +45,14 @@
             Convert File
         </button>
     </form>
+
+{% block results %}
+    
+{% endblock %}
+
 </div>
+
+
 
 <script>
     // JavaScript to update the displayed file name after selection

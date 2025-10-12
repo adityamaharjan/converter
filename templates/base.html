@@ -4,7 +4,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}My Django Site{% endblock %}</title>
+    <title>{% block title %}A file converter by Hakez Labs{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     {% block stylesheets %}
     <!-- Additional stylesheets can be included here -->
@@ -13,7 +14,10 @@
 <body>
 
 <header>
-    <h1>My Site Logo/ navbar</h1>
+    <div class="headerlogo">
+    <img src="{% static 'images/hakezlabs.png' %}" alt="hakez labs logo" class="logo">
+    <h1> File Converter</h1>
+    </div>
     <nav>
         <ul>
            
@@ -30,7 +34,7 @@
 
 <footer>
     {% block footer %}
-    <p>© 2025 My Site</p>
+    <p>© 2025 Hakez.Labs</p>
     {% endblock %}
 </footer>
 
