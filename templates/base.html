@@ -6,27 +6,59 @@
     <meta charset="UTF-8" />
     <title>{% block title %}A file converter by Hakez Labs{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/styles.css' %}"> -->
+
+     <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+
+        <!-- Tailwind Config -->
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+            },
+            fontFamily: {
+              display: ["Inter"],
+            },
+          },
+        },
+      };
+    </script>
+
+     <!-- Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
     {% block stylesheets %}
     <!-- Additional stylesheets can be included here -->
     {% endblock %}
 </head>
 <body>
 
-<header>
-    <div class="headerlogo">
-    <img src="{% static 'images/hakezlabs.png' %}" alt="hakez labs logo" class="logo">
-    <h1> File Converter</h1>
+<header
+    class="bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-20 border-b border-primary/20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+            <div class="flex items-center gap-3">
+                    <img src="{% static 'images/hakezlabs.png' %}" alt="hakez labs logo" class="h-auto w-40 object-contain" />
+            </div>
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#" class="text-sm font-medium text-primary">Home</a>
+                <a href="{% url 'about' %}" class="text-sm font-medium text-gray-600 hover:text-primary">About</a>
+                <a href="#" class="text-sm font-medium text-gray-600 hover:text-primary">Contact</a>
+            </nav>
+        </div>
     </div>
-    <nav>
-        <ul>
-           
-            <li><a href="{% url 'about' %}">About</a></li>
-        </ul>
-    </nav>
 </header>
 
-<main>
+<main class="flex flex-col min-h-screen">
     {% block content %}
     <!-- Default content here -->
     {% endblock %}
