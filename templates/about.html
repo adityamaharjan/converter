@@ -1,8 +1,86 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}About - My About Site {% endblock %}
+{% block title %}About - Hakez Labs Converter{% endblock %}
 
 {% block content %}
-<h2>Welcome to the About Page!</h2>
-<p>This is the about page content.</p>
-{% endblock %}
+<main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-xl rounded-xl p-8 md:p-12">
+
+        <header class="text-center mb-10 border-b border-gray-200 dark:border-gray-700 pb-6">
+            <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+                About Converter by Hakez Labs
+            </h1>
+            <p class="mt-4 text-xl text-gray-600 dark:text-gray-400">
+                Privacy-first, ad-free file conversion.
+            </p>
+        </header>
+
+        <section class="space-y-10">
+            
+            <div class="p-6 bg-primary/5 dark:bg-primary/10 rounded-lg">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+                    <i class="fa-solid fa-shield-halved text-primary mr-3"></i>
+                    Our Core Mission: Privacy & Simplicity
+                </h2>
+                <p class="mt-2 text-gray-700 dark:text-gray-300 leading-relaxed">
+                    Converter is built on the principle that essential utilities should be **simple and private**. We offer a fast, reliable, and completely **ad-free** service for converting files. Unlike many online tools, we enforce a strict policy of **zero data retention**.
+                </p>
+                <p class="mt-3 text-gray-700 dark:text-gray-300 leading-relaxed">
+                    Any file you upload, along with the converted output, is **automatically and permanently deleted** from our servers immediately after the download link is provided. Your data privacy is our guarantee.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+                        <i class="fa-solid fa-code-branch text-primary mr-3"></i>
+                        Technical Foundation (How It Works)
+                    </h2>
+                    <p class="text-gray-700 dark:text-gray-300">
+                        The application is powered by **Django**, providing a secure and scalable backend written in Python. Key architectural choices include:
+                    </p>
+                    <ul class="space-y-3 list-disc list-inside text-gray-700 dark:text-gray-300">
+                        <li>
+                            **Template Inheritance:** The layout is centralized in **base.html**, which all other pages extend for consistency.
+                        </li>
+                        <li>
+                            **PRG Pattern:** We use the **Post/Redirect/Get** pattern to separate file submission from display logic, ensuring robust handling of large file uploads.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+                        <i class="fa-solid fa-scroll text-primary mr-3"></i>
+                        Current & Future Capabilities
+                    </h2>
+                    <p class="text-gray-700 dark:text-gray-300">
+                        Currently, the service focuses on reliable conversion to and from popular **document formats** (e.g., PDF, DOCX, etc.).
+                    </p>
+                    <div class="mt-4">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">A Note on Documents:</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 p-3 border-l-4 border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20 rounded">
+                            Please be aware that converting complex formats like old **.doc** or heavily formatted **.docx** may result in minor layout discrepancies due to compatibility limits of server-side conversion libraries. We recommend checking the converted output.
+                        </p>
+                    </div>
+                    <p class="pt-2 text-gray-700 dark:text-gray-300">
+                        Future plans include expanding support to more specialized formats, including archives, audio, and video conversion.
+                    </p>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-gray-200 dark:border-gray-700 text-center">
+                 <p class="text-lg font-semibold text-gray-900 dark:text-white">
+                    Built with <i class="fa-solid fa-heart text-red-500"></i> by Hakez Labs.
+                </p>
+                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                    Front-end development is being collaboratively enhanced with **Tailwind CSS**.
+                </p>
+            </div>
+
+        </section>
+
+    </div>
+</main>
+{% endblock content %}
