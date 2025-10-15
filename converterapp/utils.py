@@ -1,5 +1,6 @@
 import os
 import subprocess
+from PIL import Image
 from django.conf import settings
 
 def convert_doc_to_pdf(uploaded_file):
@@ -46,6 +47,10 @@ def convert_to_png(uploaded_file):
 
     os.makedirs(upload_dir, exist_ok=True)
     os.makedirs(output_dir, exist_ok=True)
+    
+    base_name, _ = os.path.splitext(uploaded_file.name)
+    output_png = base_name + '.png'
+    output_png_path = os.path.join(output_dir, output_png)
 
     # uploaded file
     input_path = os.path.join(upload_dir, uploaded_file.name)
@@ -54,17 +59,10 @@ def convert_to_png(uploaded_file):
             f.write(chunk)
 
     # conversion
-    subprocess.run([
-        'libreoffice',
-        '--headless',
-        '--convert-to', 'png',
-        '--outdir', output_dir,
-        input_path
-    ], check=True)
-
-    base_name, _ = os.path.splitext(uploaded_file.name)
-    output_png = base_name + '.png'
-    output_png_path = os.path.join(output_dir, output_png)
+    img = Image.open(input_path)
+    img = img.convert('RGBA')  # Ensure image is in RGBA mode
+    img.save(output_png_path, 'PNG')
+    
 
     # remove file
     # os.remove(input_path)

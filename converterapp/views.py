@@ -56,8 +56,8 @@ def convert(request):
         if conversion_type == 'pdf':
             pdf_relative_path = convert_doc_to_pdf(uploaded_file)
         elif conversion_type == 'png':
-            if uploaded_file.name.endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp')):
-                pdf_relative_path = convert_doc_to_pdf(uploaded_file)
+            if uploaded_file.name.endswith(('.JPG', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp')):
+                pdf_relative_path = convert_to_png(uploaded_file)
             else:
                 messages.error(request, "Your file type is not supported for conversion to PNG.")
                 return redirect('index')
