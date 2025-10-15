@@ -1,73 +1,213 @@
-
-{%extends "base.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block title %}File Converter by Hakez Labs {% endblock %}
 
 {% block stylesheets %}
-      <link rel="stylesheet" href="{% static 'css/index.css' %}">
-      <link rel="stylesheet" href="{% static 'css/results.css' %}">
 {% endblock %}
 
 
 {% block content %}
-<div class="converter-container">
-    <h2>File Converter</h2>
-    <p class="tagline">Upload your file and select your desired output format below.
-        <i>Docx and docs format may not be converted as it is seen because of compatibility with the conversion software. For more info see about page</i>
-    </p>
-
-    <form action="{% url 'convert' %}" method="post" enctype="multipart/form-data" class="conversion-form">
-        {% csrf_token %}
-
-        <div class="form-group file-upload-group">
-            <label>1. Choose File:</label>
-            
-            {{ form.input_file }} 
-            
-            <label id="file-upload" for="file-upload" class="custom-file-upload-button">
-                Browse Files
-            </label>
-            
-            <span id="file-name-display" class="file-name-display">No file selected</span>
-            
-            {% if form.input_file.errors %}
-                <div class="error-message">{{ form.input_file.errors }}</div>
-            {% endif %}
-        </div>
-        
-        <div class="form-group">
-            <label for="{{ form.convert_to.id_for_label }}">2. Convert TO Type (PDF, etc.):</label>
-            {{ form.convert_to }}
+<main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+                File Converter
+            </h2>
+            <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+                Upload your file and select your desired output format below.
+            </p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 italic">
+                Docx and docs format may not be converted as it is seen because of compatibility with the conversion
+                software. For more info see about page
+            </p>
         </div>
 
-        <button type="submit" class="submit-button">
-            Convert File
-        </button>
-    </form>
+        <div id="drop-zone"
+            class="max-w-3xl mx-auto p-8 border-2 border-dashed border-primary/30 dark:border-primary/50 rounded-xl transition-all duration-300 group hover:border-primary bg-white dark:bg-gray-800 text-center cursor-pointer">
 
-{% block results %}
-    
-{% endblock %}
+            <form id="conversion-form" action="{% url 'convert' %}" method="post" enctype="multipart/form-data"
+                class="space-y-4">
+                {% csrf_token %}
 
-</div>
+                {{ form.input_file }}
+
+                <div class="flex flex-col items-center justify-center space-y-2">
+                    <div
+                        class="w-16 h-16 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
+                        <i class="fa-solid fa-circle-arrow-down text-primary text-2xl"></i>
+                    </div>
+                    <p class="text-lg font-semibold text-gray-900 dark:text-white">Drag and drop files here</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">or</p>
+
+                    <label id="file-upload-label" for="{{ form.input_file.id_for_label }}"
+                        class="cursor-pointer px-5 py-2.5 text-sm font-bold text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors shadow-md">
+                        Browse Files
+                    </label>
+
+                    <span id="file-name-display" class="text-sm text-gray-500 dark:text-gray-400 truncate max-w-xs">No
+                        file selected</span>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 pt-2">Max file size: 5MB</p>
+                </div>
+
+                <div class="space-y-2 pt-4 border-t border-gray-200 dark:border-gray-700 text-center">
+                    <label for="{{ form.convert_to.id_for_label }}"
+                        class="block text-lg  font-semibold text-gray-700 dark:text-gray-300">Convert to type (PDF,
+                        etc.):</label>
+
+                    {% comment %}
+                    Ensure your 'convert_to' field is styled with Tailwind classes:
+                    (e.g., via django-widget-tweaks or a custom widget)
+                    {% endcomment %}
+                    {{ form.convert_to }}
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit"
+                        class="w-full flex items-center justify-center px-8 py-3 text-base font-bold text-white bg-green-600 hover:bg-green-700 rounded-xl transition-colors shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        Convert File
+                    </button>
+                </div>
+
+            </form>
+
+            {% block results %}{% endblock %}
+        </div>
 
 
+        <div class="mt-12">
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Supported File Types</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+
+                <div
+                    class="flex flex-col items-center justify-center p-4 bg-primary/5 dark:bg-primary/10 rounded-lg text-center">
+                    <i class="fa-solid fa-file-lines text-primary text-3xl mb-2"></i>
+                    <p class="text-sm font-medium text-gray-800 dark:text-gray-200">Documents</p>
+                </div>
+
+                <div
+                    class="flex flex-col items-center justify-center p-4 bg-primary/5 dark:bg-primary/10 rounded-lg text-center">
+                    <i class="fa-solid fa-image text-primary text-3xl mb-2"></i>
+                    <p class="text-sm font-medium text-gray-800 dark:text-gray-200">Images</p>
+                </div>
+
+                <div
+                    class="flex flex-col items-center justify-center p-4 bg-primary/5 dark:bg-primary/10 rounded-lg text-center">
+                    <i class="fa-solid fa-display text-primary text-3xl mb-2"></i>
+                    <p class="text-sm font-medium text-gray-800 dark:text-gray-200">Presentations</p>
+                </div>
+
+                <div
+                    class="flex flex-col items-center justify-center p-4 bg-primary/5 dark:bg-primary/10 rounded-lg text-center">
+                    <i class="fa-solid fa-table text-primary text-3xl mb-2"></i>
+                    <p class="text-sm font-medium text-gray-800 dark:text-gray-200">Spreadsheets</p>
+                </div>
+
+                <div
+                    class="flex flex-col items-center justify-center p-4 bg-primary/5 dark:bg-primary/10 rounded-lg text-center">
+                    <i class="fa-solid fa-file-archive text-primary text-3xl mb-2"></i>
+                    <p class="text-sm font-medium text-gray-800 dark:text-gray-200">Archives</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- <div class="mt-12 max-w-xl mx-auto">
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">PDF Settings</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="orientation">Orientation</label>
+                    <select class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white" id="orientation" name="orientation">
+                        <option>Portrait</option>
+                        <option>Landscape</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="page-size">Page Size</label>
+                    <select class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white" id="page-size" name="page-size">
+                        <option>A4</option>
+                        <option>Letter</option>
+                        <option>Legal</option>
+                        <option>A3</option>
+                    </select>
+                </div>
+            </div>
+        </div> -->
+
+    </div>
+</main>
 
 <script>
-    // JavaScript to update the displayed file name after selection
-    document.addEventListener('DOMContentLoaded', function() {
-        const fileInput = document.getElementById('file-upload');
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileInput = document.getElementById('{{ form.input_file.id_for_label }}');
         const fileNameDisplay = document.getElementById('file-name-display');
+        const dropZone = document.getElementById('drop-zone');
+        const form = document.getElementById('conversion-form');
 
         if (fileInput) {
-            fileInput.addEventListener('change', function() {
-                if (this.files.length > 0) {
-                    fileNameDisplay.textContent = this.files[0].name;
+            // 1. Visually hide the file input, but keep it functional
+            fileInput.classList.add('sr-only');
+
+            // Function to update file name display
+            const updateFileNameDisplay = (files) => {
+                if (files.length > 0) {
+                    fileNameDisplay.textContent = files[0].name;
                 } else {
                     fileNameDisplay.textContent = 'No file selected';
                 }
+            };
+
+            // 2. Handle file selection via the "Browse" button
+            fileInput.addEventListener('change', function () {
+                updateFileNameDisplay(this.files);
             });
+
+            // 3. Handle Drag and Drop Events
+
+            // Prevent default drag behaviors
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+                document.body.addEventListener(eventName, preventDefaults, false); // Optional: prevents drop outside zone
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            // Highlight drop zone when item is dragged over it
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => dropZone.classList.add('border-primary', 'shadow-lg'), false);
+            });
+
+            // Unhighlight drop zone when item leaves
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => dropZone.classList.remove('border-primary', 'shadow-lg'), false);
+            });
+
+            // Handle the drop event
+            dropZone.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                let dt = e.dataTransfer;
+                let files = dt.files;
+
+                if (files.length > 0) {
+                    // Check if the file input exists and is writable
+                    if (fileInput.files) {
+                        // Assign the dropped file to the hidden input
+                        fileInput.files = files;
+                        updateFileNameDisplay(files);
+
+                        // Optional: Automatically submit the form or prompt user to click "Convert"
+                        // For a better user experience, we only update the file and let the user click convert.
+                    } else {
+                        // Fallback or error for older browsers
+                        alert('Your browser does not fully support file dropping.');
+                    }
+                }
+            }
         }
     });
 </script>

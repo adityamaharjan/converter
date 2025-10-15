@@ -1,32 +1,94 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8" />
     <title>{% block title %}A file converter by Hakez Labs{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/styles.css' %}"> -->
+
+    <link
+      rel="stylesheet"
+      href="https://site-assets.fontawesome.com/releases/v7.0.0/css/all.css"
+    />
+
+     <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+
+        <!-- Tailwind Config -->
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+              sans: ["Inter", "sans-serif"], 
+            },
+          },
+        },
+      };
+    </script>
+
+     <!-- Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
     {% block stylesheets %}
     <!-- Additional stylesheets can be included here -->
     {% endblock %}
 </head>
-<body>
+<body class="bg-stone-100 dark:bg-gray-800">
 
-<header>
-    <div class="headerlogo">
-    <img src="{% static 'images/hakezlabs.png' %}" alt="hakez labs logo" class="logo">
-    <h1> File Converter</h1>
+<header
+    class="bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-20 border-b border-primary/20 dark:border-primary/30">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+            
+            <div class="flex items-center gap-3">
+                <img src="{% static 'images/hakezlabs.png' %}" alt="hakez labs logo" class="h-auto w-40 object-contain" />
+            </div>
+
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#" class="text-sm font-medium text-primary dark:text-primary">Home</a>
+                <a href="{% url 'about' %}" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">About</a>
+                <a href="#" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Contact</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <button id="theme-toggle" type="button"
+                    class="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-background-dark transition-colors">
+                
+                    <!-- Light mode icon (sun) -->
+                    <i id="theme-toggle-light-icon" class="hidden fa-solid fa-sun w-5 h-5 dark:block"></i>
+                
+                    <!-- Dark mode icon (moon) -->
+                    <i id="theme-toggle-dark-icon" class="fa-solid fa-moon w-5 h-5 dark:hidden"></i>
+                </button>
+
+                <button id="mobile-menu-button" type="button" class="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-background-dark md:hidden transition-colors" aria-controls="mobile-menu" aria-expanded="false">
+                    <svg id="menu-icon-open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <svg id="menu-icon-close" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+            </div>
+        </div>
     </div>
-    <nav>
-        <ul>
-           
-            <li><a href="{% url 'about' %}">About</a></li>
-        </ul>
-    </nav>
 </header>
 
-<main>
+<main class="flex flex-col min-h-screen">
     {% block content %}
     <!-- Default content here -->
     {% endblock %}
@@ -34,9 +96,57 @@
 
 <footer>
     {% block footer %}
-    <p>© 2025 Hakez.Labs</p>
+    <footer class="bg-white dark:bg-gray-800 border-t border-primary/20 dark:border-primary/30 mt-16">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col md:flex-row items-center justify-between text-center md:text-left">
+            
+            <div class="text-sm text-gray-600 dark:text-gray-400 order-2 md:order-1 mt-4 md:mt-0">
+                &copy; <span id="current-year"></span> Hakez Labs File Converter. All rights reserved.
+            </div>
+
+            <div class="text-sm font-medium text-gray-700 dark:text-gray-300 order-1 md:order-2">
+                Created by 
+                <a href="https://adityamaharjan.com.np/"><span class="text-primary font-bold">Aditya Maharjan</span> </a>
+                &amp; 
+                <a href="https://maharjan-sajan.com.np/"><span class="text-primary font-bold">Sajan Maharjan</span> </a>
+              </div>
+            
+        </div>
+    </div>
+</footer>
     {% endblock %}
 </footer>
 
+<script>
+    // --- BASIC JAVASCRIPT FOR TOGGLES (Needs to be implemented in your main JS file) ---
+
+    // 1. Dark Mode Toggle
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    themeToggleBtn.addEventListener('click', function () {
+        // Toggle 'dark' class on the HTML element
+        document.documentElement.classList.toggle('dark');
+        
+        // You would typically save this state to localStorage here
+        // localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // 2. Mobile Menu Toggle
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIconOpen = document.getElementById('menu-icon-open');
+    const menuIconClose = document.getElementById('menu-icon-close');
+
+    menuButton.addEventListener('click', function () {
+        const isExpanded = menuButton.getAttribute('aria-expanded') === 'true' || false;
+        menuButton.setAttribute('aria-expanded', !isExpanded);
+        
+        // Toggle visibility of the mobile menu
+        mobileMenu.classList.toggle('hidden');
+
+        // Toggle the icons
+        menuIconOpen.classList.toggle('hidden');
+        menuIconClose.classList.toggle('hidden');
+    });
+</script>
 </body>
 </html>
