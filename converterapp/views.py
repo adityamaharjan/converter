@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import FileConvertForm
 import tempfile
-from .utils import convert_doc_to_pdf, convert_to_png
+from .utils import convert_doc_to_pdf, convert_to_png, supported_image_formats
 from django.http import FileResponse, Http404
 import os
 from django.core.files.storage import FileSystemStorage
@@ -56,7 +56,7 @@ def convert(request):
         if conversion_type == 'pdf':
             pdf_relative_path = convert_doc_to_pdf(uploaded_file)
         elif conversion_type == 'png':
-            if uploaded_file.name.endswith(('.JPG', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp')):
+            if uploaded_file.name.endswith(supported_image_formats):
                 pdf_relative_path = convert_to_png(uploaded_file)
             else:
                 messages.error(request, "Your file type is not supported for conversion to PNG.")
@@ -72,3 +72,17 @@ def convert(request):
     except Exception as e:
         messages.error(request, f"Unexpected error: {e}")
         return redirect('index')
+    
+    
+    
+    
+def serve_converted_file(request, filename, key):
+    # check secret key
+    if key != DOWNLOAD_SECRET_KEY:
+        raise Http404("File not found")
+
+    file_path = os.path.join(settings.MEDIA_ROOT, 'converted', filename)
+    if not os.path.exists(file_path):
+        raise Http404("File not found")
+
+    return FileResponse(open(file_path, 'rb'), as_attachment=True)

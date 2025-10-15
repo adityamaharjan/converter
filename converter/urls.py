@@ -28,6 +28,6 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('convert/', views.convert, name='convert'),
     path('index/<str:filename>', views.result, name='result'),
-    # path('download/<str:filename>', views.download, name='download'),
+    
     path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'favicon.ico')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

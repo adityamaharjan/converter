@@ -3,6 +3,10 @@ import subprocess
 from PIL import Image
 from django.conf import settings
 
+
+base_format = ['JPG', 'jpeg', 'png', 'gif', 'bmp', 'webp']
+
+supported_image_formats = tuple(format.upper() for format in base_format) + tuple(format.lower() for format in base_format)
 def convert_doc_to_pdf(uploaded_file):
 
 
