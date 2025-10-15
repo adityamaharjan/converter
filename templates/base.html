@@ -61,9 +61,9 @@
             </div>
 
             <nav class="hidden md:flex items-center gap-8">
-                <a href="#" class="text-sm font-medium text-primary dark:text-primary">Home</a>
+                <a href="{% url 'index' %}" class="text-sm font-medium text-primary dark:text-primary">Home</a>
                 <a href="{% url 'about' %}" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">About</a>
-                <a href="#" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Contact</a>
+                <a href="{% url 'contact'%}" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Contact</a>
             </nav>
 
             <div class="flex items-center gap-4">
@@ -77,13 +77,11 @@
                     <i id="theme-toggle-dark-icon" class="fa-solid fa-moon w-5 h-5 dark:hidden"></i>
                 </button>
 
-                <button id="mobile-menu-button" type="button" class="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-background-dark md:hidden transition-colors" aria-controls="mobile-menu" aria-expanded="false">
-                    <svg id="menu-icon-open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                    <svg id="menu-icon-close" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                <button id="mobile-menu-button" type="button"
+                    class="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-background-dark md:hidden transition-colors"
+                    aria-controls="mobile-menu" aria-expanded="false">
+                    <i id="menu-icon-open" class="fa-solid fa-bars text-2xl block"></i>
+                    <i id="menu-icon-close" class="fa-solid fa-xmark text-2xl hidden"></i>
                 </button>
 
             </div>
@@ -91,15 +89,43 @@
     </div>
 </header>
 
+<div id="mobile-menu" 
+     class="hidden md:hidden 
+            fixed top-16 right-0 z-40  /* Positioning: Fixed below the 4rem (h-16) header */
+            h-full                       /* Height: Takes up the remaining viewport height */
+            w-40                       /* Width: Takes up full viewport width */
+            overflow-y-auto              /* Allows scrolling if links exceed screen height */
+            bg-background-light dark:bg-background-dark 
+            shadow-xl transition-transform duration-300 ease-in-out">
+    
+    <div class="px-4 py-4 space-y-1">
+        
+        <a href="{% url 'index' %}" 
+           class="block w-full text-left px-4 py-2 rounded-lg text-base font-semibold transition-colors duration-150 
+                  bg-primary/10 dark:bg-primary/20 text-primary dark:text-white">
+            Home
+        </a>
+        
+        <a href="{% url 'about' %}" 
+           class="block w-full text-left px-4 py-2 rounded-lg text-base font-medium transition-colors duration-150 
+                  text-gray-700 dark:text-gray-300 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20 dark:hover:text-white">
+            About
+        </a>
+        
+        <a href="{% url 'contact' %}" 
+           class="block w-full text-left px-4 py-2 rounded-lg text-base font-medium transition-colors duration-150 
+                  text-gray-700 dark:text-gray-300 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20 dark:hover:text-white">
+            Contact
+        </a>
+        
+    </div>
+</div>
+
 <main class="flex flex-col min-h-screen">
     {% block content %}
     <!-- Default content here -->
     {% endblock %}
 </main>
-
-{% 404 block content %}
-    <!-- Default content here -->
-{% endblock %}
 
 
 <footer>

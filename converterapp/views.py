@@ -86,3 +86,9 @@ def serve_converted_file(request, filename, key):
         raise Http404("File not found")
 
     return FileResponse(open(file_path, 'rb'), as_attachment=True)
+
+def error(request):
+    return render(request,'404.html')
+
+def contact(request):
+    return render(request,'contact.html')
