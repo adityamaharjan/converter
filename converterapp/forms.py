@@ -20,8 +20,12 @@ class FileConvertForm(forms.Form):
     
     # Field 2: What to convert to (Dropdown)
     convert_to = forms.ChoiceField(
-        
-        choices=DOC_CHOICES,
-        label='Convert TO Document Type',
-        initial='pdf',
+    choices=DOC_CHOICES,
+    label='Convert To Document Type',
+    initial='pdf',
+    widget=forms.Select(
+        attrs={
+            'class': 'mt-1 block w-lg mx-auto pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white'
+        }
     )
+)
