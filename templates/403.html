@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="flex-grow flex items-center justify-center text-center px-4">
+    <div class="max-w-md w-full">
+        <div class="bg-primary/10 dark:bg-primary/20 text-primary inline-block p-4 rounded-full mb-6">
+            <span class="material-symbols-outlined text-5xl">
+                error_outline
+            </span>
+        </div>
+        <h1 class="text-6xl md:text-7xl font-extrabold text-slate-900 dark:text-white mb-2">403</h1>
+        <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">You should not be here. Shooo..!!!</h2>
+        <p class="text-slate-600 dark:text-slate-400 mb-8">
+            Sorry, you are not authorized to access this page. Let's get you back on track.
+        </p>
+        <a class="inline-flex items-center justify-center bg-primary text-white font-bold px-8 py-3 rounded-lg text-base hover:bg-primary/90 transition-all duration-300 shadow-lg shadow-primary/20"
+            href="#">
+            <span class="material-symbols-outlined mr-2">
+                home
+            </span>
+            Go to Homepage
+        </a>
+    </div>
+</main>
+{% endblock %}
