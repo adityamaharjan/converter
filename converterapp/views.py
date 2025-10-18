@@ -93,9 +93,7 @@ def download_file_view(request, filename):
     if not os.path.exists(filepath):
         raise Http404("File does not exist")
 
-    # Optional: clear session flag after one download
-    # request.session['can_download'] = False
-    # request.session['filename'] = None
+
 
     return FileResponse(open(filepath, 'rb'))  
     
