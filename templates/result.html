@@ -2,26 +2,26 @@
 {% load static %}
 
 {% block results %}
-    <h3 class="text-lg font-semibold mb-4 text-gray-800">
-  Your Converted File: <i class="text-blue-600">{{ filename }}</i> is ready
+<h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">
+  Your Converted File: <i class="text-blue-600 dark:text-blue-400">{{ filename }}</i> is ready
 </h3>
 
-<div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center bg-gray-100 p-4 rounded shadow-md">
-  
+<div class="flex flex-col sm:flex-row gap-4 items-center justify-center p-4 ">
+
   <!-- View Button -->
-  <a href="{{ file_url }}" target="_blank"
-     class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-200 text-sm">
+  <a href="{% url 'download_file' filename %}" target="_blank"
+     class="px-4 py-2 bg-primary  text-white rounded-lg 
+            hover:bg-primary/90  transition-colors duration-200 text-sm">
     🔍 View File
   </a>
 
   <!-- Download Button -->
-  <a href="{{ file_url }}" download
-     class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors duration-200 text-sm">
+  <a href="{% url 'download_file' filename %}" download
+     class="px-4 py-2 bg-green-600  text-white rounded-lg 
+            hover:bg-green-700  transition-colors duration-200 text-sm">
     ⬇ Download File
   </a>
 
 </div>
 
-
-  
 {% endblock %}

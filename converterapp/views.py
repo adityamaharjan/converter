@@ -4,6 +4,7 @@ import tempfile
 from .utils import convert_doc_to_pdf, convert_to_png, supported_image_formats
 from django.http import FileResponse, Http404
 import os
+from django.core.exceptions import PermissionDenied
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.conf import settings
@@ -56,14 +57,21 @@ def convert(request):
         if conversion_type == 'pdf':
             pdf_relative_path = convert_doc_to_pdf(uploaded_file)
         elif conversion_type == 'png':
-            if uploaded_file.name.endswith(supported_image_formats):
+            if uploaded_file.name.upper().endswith(tuple(f.upper() for f in supported_image_formats)):
                 pdf_relative_path = convert_to_png(uploaded_file)
             else:
                 messages.error(request, "Your file type is not supported for conversion to PNG.")
                 return redirect('index')
 
+        # Convert relative path to full filename
         filename = os.path.basename(pdf_relative_path)
-        return redirect('result', filename=filename)
+        safe_filename = filename.replace(" ", "_")  
+
+        # Store in session , protected access
+        request.session['filename'] = safe_filename
+        request.session['can_download'] = True
+
+        return redirect('result', filename=safe_filename)
 
     except subprocess.CalledProcessError:
         messages.error(request, "Conversion failed: LibreOffice error.")
@@ -75,17 +83,24 @@ def convert(request):
     
     
     
+def download_file_view(request, filename):
+    # Check session flag
+    if not request.session.get('can_download') or request.session.get('filename') != filename:
+        raise PermissionDenied("Unauthorized access")
+
+    # File is stored in MEDIA_ROOT/converted/
+    filepath = os.path.join(settings.MEDIA_ROOT, 'converted', filename)
+    if not os.path.exists(filepath):
+        raise Http404("File does not exist")
+
+    # Optional: clear session flag after one download
+    # request.session['can_download'] = False
+    # request.session['filename'] = None
+
+    return FileResponse(open(filepath, 'rb'))  
     
-def serve_converted_file(request, filename, key):
-    # check secret key
-    if key != DOWNLOAD_SECRET_KEY:
-        raise Http404("File not found")
-
-    file_path = os.path.join(settings.MEDIA_ROOT, 'converted', filename)
-    if not os.path.exists(file_path):
-        raise Http404("File not found")
-
-    return FileResponse(open(file_path, 'rb'), as_attachment=True)
+    
+    
 
 def error(request):
     return render(request,'404.html')
