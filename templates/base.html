@@ -57,7 +57,15 @@
         <div class="flex h-16 items-center justify-between">
             
             <div class="flex items-center gap-3">
-                <img src="{% static 'images/hakezlabs.png' %}" alt="hakez labs logo" class="h-auto w-40 object-contain" />
+            
+                    <img src="{% static 'images/logo_light.png' %}" 
+                        alt="Hakez Labs Logo" 
+                        class="h-auto w-40 object-contain block dark:hidden" />
+
+                    <img src="{% static 'images/logo_dark.png' %}" 
+                        alt="Hakez Labs Logo" 
+                        class="h-auto w-40 object-contain hidden dark:block" />
+
             </div>
 
             <nav class="hidden md:flex items-center gap-8">
@@ -120,6 +128,35 @@
         
     </div>
 </div>
+
+{% if messages %}
+<div id="toast-container" class="fixed top-5 right-5 z-50 space-y-2">
+  {% for message in messages %}
+    <div
+      class="toast-message px-4 py-3 rounded-lg shadow-lg text-white transition-opacity duration-700 ease-in-out
+      {% if message.tags == 'error' %}bg-red-600{% elif message.tags == 'success' %}bg-green-600{% elif message.tags == 'warning' %}bg-yellow-500{% else %}bg-blue-600{% endif %}">
+      {{ message }}
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+  // Wait for the DOM to load
+  document.addEventListener("DOMContentLoaded", () => {
+    const toasts = document.querySelectorAll(".toast-message");
+
+    // Delay before fade out
+    toasts.forEach((toast, index) => {
+      setTimeout(() => {
+        toast.style.opacity = "0"; // fade out
+        
+        setTimeout(() => toast.remove(), 500); 
+      }, 3000 + index * 300); // staggered timing
+    });
+  });
+</script>
+{% endif %}
+
 
 <main class="flex flex-col min-h-screen">
     {% block content %}
