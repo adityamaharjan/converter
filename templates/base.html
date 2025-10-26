@@ -69,9 +69,21 @@
             </div>
 
             <nav class="hidden md:flex items-center gap-8">
-                <a href="{% url 'index' %}" class="text-sm font-medium text-primary dark:text-primary">Home</a>
-                <a href="{% url 'about' %}" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">About</a>
-                <a href="{% url 'contact'%}" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Contact</a>
+                <a href="{% url 'index' %}" class="text-sm font-medium {% if request.resolver_match.url_name == 'index' %}
+                        text-primary dark:text-primary
+                   {% else %}
+                        text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary
+                   {% endif %} transition-colors">Home</a>
+                <a href="{% url 'about' %}" class="text-sm font-medium {% if request.resolver_match.url_name == 'about' %}
+                        text-primary dark:text-primary
+                   {% else %}
+                        text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary
+                   {% endif %} transition-colors">About</a>
+                <a href="{% url 'contact'%}" class="text-sm font-medium {% if request.resolver_match.url_name == 'contact' %}
+                        text-primary dark:text-primary
+                   {% else %}
+                        text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary
+                   {% endif %} transition-colors">Contact</a>
             </nav>
 
             <div class="flex items-center gap-4">
