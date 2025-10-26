@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <title>{% block title %}A file converter by Hakez Labs{% endblock %}</title>
@@ -189,17 +189,27 @@
 </footer>
 
 <script>
-    // --- BASIC JAVASCRIPT FOR TOGGLES (Needs to be implemented in your main JS file) ---
-
-    // 1. Dark Mode Toggle
+    const html = document.documentElement;
     const themeToggleBtn = document.getElementById('theme-toggle');
-    themeToggleBtn.addEventListener('click', function () {
-        // Toggle 'dark' class on the HTML element
-        document.documentElement.classList.toggle('dark');
-        
-        // You would typically save this state to localStorage here
-        // localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+
+    function applyTheme(theme){
+        if (theme==="dark"){
+            html.classList.add('dark')
+        }else {
+            html.classList.remove('dark')
+        }
+        localStorage.setItem("theme", theme);
+    }
+    themeToggleBtn.addEventListener('click', ()=> {
+        const newTheme = html.classList.contains("dark")? "light" : "dark";
+        applyTheme(newTheme);
     });
+
+    // When page loads
+    const savedTheme = localStorage.getItem("theme") ||
+    (window.matchMedia("(prefers-color-scheme: dark)").matches? "dark":"light");
+    
+    applyTheme(savedTheme);
 
     // 2. Mobile Menu Toggle
     const menuButton = document.getElementById('mobile-menu-button');
