@@ -52,7 +52,7 @@ def convert(request):
 
     uploaded_file = form.cleaned_data['input_file']
     conversion_type = form.cleaned_data['convert_to']
-
+    pdf_relative_path = ""
     try:
         if conversion_type == 'pdf':
             pdf_relative_path = convert_doc_to_pdf(uploaded_file)
@@ -104,4 +104,37 @@ def error(request):
     return render(request,'404.html')
 
 def contact(request):
+    
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        
+        if not name or not email or not subject or not message:
+            messages.error(request, "All fields are required.")
+            return redirect('contact')
+        
+       # this is temp only to store data, need to apply encryption to store in db
+        msg_dir=os.path.join(settings.BASE_DIR, 'contact_messages')
+        os.makedirs(msg_dir, exist_ok=True)
+        msg_file=os.path.join(msg_dir, f"{name}_{email}.txt")
+        if os.path.exists(msg_file):
+            with open(msg_file, 'a') as f:
+                f.write("\n\n--- New Message ---\n\n")
+                f.write(f"Subject: {subject}\n")
+                f.write("Message:\n")
+                f.write(message)
+        else:
+            with open(msg_file, 'w') as f:
+                f.write(f"Name: {name}\n")
+                f.write(f"Email: {email}\n")
+                f.write("\n\n--- Message ---\n\n")
+                f.write(f"Subject: {subject}\n")
+                f.write("Message:\n")
+                f.write(message)
+        messages.success(request, "Thank you for contacting us! We will get back to you soon.")
+        return redirect('contact')
+    
+    
     return render(request,'contact.html')
