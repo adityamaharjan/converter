@@ -22,13 +22,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+   
     path('about/', views.about, name='about'),
-    path('', views.placeholder, name='placeholder'),
-    path('index/', views.index, name='index'),
-    path('convert/', views.convert, name='convert'),
+    path('', views.index, name='index'),
+    path('c/', views.convert, name='convert'),
     path('contact/', views.contact, name='contact'),
-    path('index/<str:filename>', views.result, name='result'),
+    path('r/<str:filename>', views.result, name='result'),
     path('download/<str:filename>', views.download_file_view, name='download_file'),
     path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'favicon.ico')),
     
